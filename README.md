@@ -1,24 +1,28 @@
 #### Запуск или перезапуск с пересборкой (если изменился Dockerfile или зависимости):
 ```
-docker-compose up --build
+docker compose up --build
 ```
-или
+или:
 ```
-docker-compose down && docker-compose up --build
+docker compose down && docker-compose up --build
 ```
 #### Перезапуск без пересборки:
 ```
-docker-compose restart
+docker compose restart
 ```
-#### Запуск
+#### Запуск:
 ```
-docker-compose up
+docker compose up
 ```
-#### Остановить
+#### Остановить:
 ```
-docker-compose down
+docker compose down
 ```
-#### Запуск в фоновом режиме (-d — detached mode)
+#### Запуск в фоновом режиме (-d — detached mode):
 ```
-docker-compose up -d
+docker compose up -d
+```
+#### Выключить конкретный сервис:
+```
+docker compose stop <контейнер>
 ```

@@ -1,7 +1,5 @@
-version: '3.8'
-
 services:
-  vite-app:
+  docker-cv-html:
     build: .
     ports:
       - "5173:5173"
