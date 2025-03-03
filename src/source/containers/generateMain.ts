@@ -18,14 +18,21 @@ export const generateMain = () => {
     id: 'quote',
   });
 
-  const button = createHtmlElement('button', {
+  const generateQuoteBtn = createHtmlElement('button', {
     className: 'button',
     text: 'Generate new quote',
-    id: 'button',
-  })
+    id: 'quoteGenerateBtn',
+  });
+
+  const addToFavoriteBtn = createHtmlElement('button', {
+    className: ['button', 'add-to-favorite'],
+    text: 'Favorite',
+    id: 'favoriteBtn',
+  });
 
   wrapper.append(quotesDiv);
-  wrapper.append(button);
+  wrapper.append(generateQuoteBtn);
+  wrapper.append(addToFavoriteBtn);
   page.append(wrapper);
   main.append(page);
 

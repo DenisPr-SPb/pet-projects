@@ -1,51 +1,36 @@
-const quotesArray: ({ quote: string; author: string })[] = [
-  {
-    quote: '«Стремитесь не к успеху, а к ценностям, которые он даёт»',
-    author: 'Фёдор Достоевский'
-  },
-  {
-    quote: '«Успех не окончателен, поражение не фатально. Лишь смелость продолжать имеет значение»',
-    author: 'Конфуций',
-  },
-  {
-    quote: '«Не так важно то, что вы получите, достигнув своих целей, как то, чем вы станете, сделав это»',
-    author: 'Махатма Ганди',
-  },
-  {
-    quote: '«Счастье — это не нечто готовое. Счастье зависит только от ваших действий»',
-    author: 'Пауло Коэльо',
-  },
-  {
-    quote: '«В конечном итоге всё будет хорошо. Если пока не хорошо, значит, это ещё не конец»',
-    author: 'Джордж Элиот',
-  },
-  {
-    quote: '«Секрет в том, чтобы начать»',
-    author: 'Марк Твен',
-  },
-  {
-    quote: '«Чем больше вы делаете, тем больше вы можете»',
-    author: 'Далай-лама',
-  }
-];
+import {quotesArray} from './quotes.ts';
 
 document.addEventListener('DOMContentLoaded', () => {
   const quotesDiv = document.querySelector('#quote');
-  const generateBtn = document.querySelector('#button');
+  const generateBtn = document.querySelector('#quoteGenerateBtn');
+  const addToFavoriteBtn = document.querySelector('#favoriteBtn');
 
-  console.log({quotesDiv, generateBtn});
+  let currentQuoteIndex;
 
   const generateRandomQuote = () => {
-    const randomIndex = Math.floor(Math.random() * quotesArray.length);
+    let randomIndex = Math.floor(Math.random() * quotesArray.length);
 
+    while (currentQuoteIndex === randomIndex) {
+      randomIndex = Math.floor(Math.random() * quotesArray.length);
+    }
+
+    currentQuoteIndex = randomIndex;
     const { quote, author } = quotesArray[randomIndex];
     quotesDiv.innerHTML = `<p>${quote}</p> <p>${author}</p>`;
   };
 
-  if (generateBtn) {
-    generateBtn.addEventListener('click', () => {
-      console.log(quotesDiv);
-      generateRandomQuote();
-    });
+  const toggleToFavorite = (index: number) => {
+    quotesArray[index].isFavorite = !quotesArray[index].isFavorite;
+    console.log(quotesArray[index]);
+    if (quotesArray[index].isFavorite) {
+      addToFavoriteBtn.innerHTML = 'Remove';
+    } else {
+      addToFavoriteBtn.innerHTML = 'Favorite';
+    }
+
   }
+
+  generateBtn?.addEventListener('click', () => generateRandomQuote());
+
+  addToFavoriteBtn?.addEventListener('click', () => toggleToFavorite(currentQuoteIndex));
 })
