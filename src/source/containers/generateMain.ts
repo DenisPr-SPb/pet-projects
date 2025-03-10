@@ -30,9 +30,15 @@ export const generateMain = () => {
     id: 'favoriteBtn',
   });
 
+  const favoriteContainer = createHtmlElement('div', {
+    className: 'favorites-container',
+    id: 'favoriteContainer',
+  })
+
   wrapper.append(quotesDiv);
   wrapper.append(generateQuoteBtn);
   wrapper.append(addToFavoriteBtn);
+  wrapper.append(favoriteContainer);
   page.append(wrapper);
   main.append(page);
 

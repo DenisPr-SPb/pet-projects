@@ -3,4 +3,3 @@ export interface CreateElementOptions {
   text?: string | null;
   id?: string;
 }
-
