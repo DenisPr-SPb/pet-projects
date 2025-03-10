@@ -1,4 +1,5 @@
 import {quotesArray} from './quotes.ts';
+import {favoriteCard, hideFavoriteCard} from './utils/favorites.ts';
 
 document.addEventListener('DOMContentLoaded', () => {
   const quotesDiv = document.querySelector('#quote');
@@ -8,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentQuoteIndex;
 
-  function generateRandomQuote() {
+  function generateRandomQuote(): void {
     let randomIndex = Math.floor(Math.random() * quotesArray.length);
     while (currentQuoteIndex === randomIndex) {
       randomIndex = Math.floor(Math.random() * quotesArray.length);
@@ -20,27 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
     quotesDiv.innerHTML = `<p>${quote}</p> <p>${author}</p>`;
   }
 
-  function favoriteCard(quote, author, idCard) {
-    const card = document.createElement('div');
-    card.classList.add('favorite-card');
-    card.innerHTML = `
-      <p id=${idCard}>${quote}</p>
-      <p>${author}</p>
-    `;
-
-    favoriteContainer.append(card);
-  }
-
-  function toggleToFavorite(index: number) {
+  function toggleToFavorite(index: number): void {
     quotesArray[index].isFavorite = !quotesArray[index].isFavorite;
     const {quote, author, id, isFavorite} = quotesArray[index];
     addToFavoriteBtn.textContent = isFavorite ? 'Remove' : 'Favorite';
 
     if (isFavorite) {
-      favoriteCard(quote, author, id);
+      favoriteCard(favoriteContainer, quote, author, id);
     } else {
-      const favoriteCard = document.querySelector(`#${id}`);
-      favoriteCard.parentElement.remove();
+      hideFavoriteCard(id);
     }
   }
 
