@@ -1,39 +1,51 @@
-import {quotesArray} from './quotes.ts';
-import {favoriteCard, hideFavoriteCard} from './utils/favorites.ts';
+import {quotesArray, quotesType} from './quotes.ts';
+import {hideFavoriteCard, showFavoriteCard} from './utils/favorites.ts';
+import {generateRandomInt, hideFavoriteBtn, showFavoriteBtn, showQuote} from './utils/utils.ts';
 
 document.addEventListener('DOMContentLoaded', () => {
   const quotesDiv = document.querySelector('#quote');
-  const generateBtn = document.querySelector('#quoteGenerateBtn');
-  const addToFavoriteBtn = document.querySelector('#favoriteBtn');
+  const generateBtnHandler = document.querySelector('#quoteGenerateBtn');
+  const addToFavoriteBtn = document.querySelector('#favoriteBtn') as HTMLButtonElement;
   const favoriteContainer = document.querySelector('#favoriteContainer');
 
   let currentQuoteIndex;
+  hideFavoriteBtn(addToFavoriteBtn);
 
-  function generateRandomQuote(): void {
-    let randomIndex = Math.floor(Math.random() * quotesArray.length);
-    while (currentQuoteIndex === randomIndex) {
-      randomIndex = Math.floor(Math.random() * quotesArray.length);
-    }
-
+  function chooseRandomQuote(): quotesType {
+    let randomIndex;
+    do {
+      randomIndex = generateRandomInt(quotesArray.length);
+    } while (randomIndex === currentQuoteIndex);
     currentQuoteIndex = randomIndex;
-    const {quote, author, isFavorite} = quotesArray[randomIndex];
-    addToFavoriteBtn.textContent = isFavorite ? 'Remove' : 'Favorite';
-    quotesDiv.innerHTML = `<p>${quote}</p> <p>${author}</p>`;
+
+    return quotesArray[randomIndex];
+  }
+
+  function generateAndDisplayQuote() {
+    const quote = chooseRandomQuote();
+
+    if (quote) {
+      const {text, author, isFavorite} = quote;
+      showFavoriteBtn(isFavorite, addToFavoriteBtn);
+      showQuote(text, author, quotesDiv);
+    }
   }
 
   function toggleToFavorite(index: number): void {
     quotesArray[index].isFavorite = !quotesArray[index].isFavorite;
-    const {quote, author, id, isFavorite} = quotesArray[index];
-    addToFavoriteBtn.textContent = isFavorite ? 'Remove' : 'Favorite';
+    const {text, author, id, isFavorite} = quotesArray[index];
+
+    showFavoriteBtn(isFavorite, addToFavoriteBtn);
 
     if (isFavorite) {
-      favoriteCard(favoriteContainer, quote, author, id);
+      showFavoriteCard(favoriteContainer, text, author, id);
     } else {
       hideFavoriteCard(id);
     }
   }
 
-  generateBtn?.addEventListener('click', () => generateRandomQuote());
-
-  addToFavoriteBtn?.addEventListener('click', () => toggleToFavorite(currentQuoteIndex));
+  if (generateBtnHandler && addToFavoriteBtn) {
+    generateBtnHandler.addEventListener('click', () => generateAndDisplayQuote());
+    addToFavoriteBtn.addEventListener('click', () => toggleToFavorite(currentQuoteIndex));
+  }
 });

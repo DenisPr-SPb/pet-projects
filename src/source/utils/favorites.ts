@@ -1,4 +1,4 @@
-export function favoriteCard(
+export function showFavoriteCard(
   container: Element | null,
   quote: string,
   author: string,
