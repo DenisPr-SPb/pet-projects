@@ -1,0 +1,22 @@
+import {useState} from "react";
+import "./App.css";
+import Counter from "./components/Counter.jsx";
+import Button from "./components/Button.jsx";
+
+function App() {
+  const [count, setCount] = useState(0);
+  const incrementCount = () => {
+    setCount(count + 1);
+  }
+  return (
+      <div className="App">
+        <Counter counter={count}/>
+        <Button onClick={incrementCount}/>
+        <Button onClick={incrementCount}/>
+        <Button onClick={incrementCount}/>
+        <Button onClick={incrementCount}/>
+      </div>
+  );
+}
+
+export default App;
